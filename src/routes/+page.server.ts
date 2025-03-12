@@ -8,8 +8,8 @@ export const load: PageServerLoad = async ({ params }) => {
 		},
 		with: {
 			brand: true,
-			processor: true,
-			graphics: true
+			processor: { with: { manufacturer: true } },
+			graphics: { with: { manufacturer: true } }
 		}
 	});
 	return {
