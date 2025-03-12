@@ -1,4 +1,4 @@
-import * as schema from '../schema';
+import * as schema from '../../lib/db/schema';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { reset } from 'drizzle-seed';
 import 'dotenv/config';

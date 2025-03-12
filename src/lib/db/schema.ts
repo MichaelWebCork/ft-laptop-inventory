@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import { pgTable as table } from 'drizzle-orm/pg-core';
 import * as pg from 'drizzle-orm/pg-core';
 
@@ -16,11 +17,29 @@ export const laptops = table('laptops', {
 	operatingSystem: pg.integer().references(() => operatingSystems.id),
 	purchasePrice: pg.doublePrecision(),
 	purchaseDate: pg.date(),
-	assignedEmployee: pg.integer().references(() => employees.id),
+	assignedEmployee: pg.integer().references(() => employees.id), // I'm using a different table to store this now, should delte?
 	status: pg.integer().references(() => laptopStatuses.id),
 	notes: pg.varchar(),
 	createdAt: pg.timestamp().defaultNow(),
 	updatedAt: pg.timestamp().defaultNow()
+});
+
+export const laptopRelations = relations(laptops, ({ one, many }) => {
+	return {
+		brand: one(brands, { fields: [laptops.brand], references: [brands.id] }),
+		processor: one(processors, { fields: [laptops.processor], references: [processors.id] }),
+		graphics: one(graphics, { fields: [laptops.graphics], references: [graphics.id] }),
+		storageType: one(storageTypes, {
+			fields: [laptops.storageType],
+			references: [storageTypes.id]
+		}),
+		ramType: one(ramTypes, { fields: [laptops.ramType], references: [ramTypes.id] }),
+		operatingSystem: one(operatingSystems, {
+			fields: [laptops.operatingSystem],
+			references: [operatingSystems.id]
+		}),
+		status: one(laptopStatuses, { fields: [laptops.status], references: [laptopStatuses.id] })
+	};
 });
 
 export const brands = table('brands', {
