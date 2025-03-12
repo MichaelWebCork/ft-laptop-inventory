@@ -11,7 +11,13 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
-		"lint": "prettier --check . && eslint ."
+		"lint": "prettier --check . && eslint .",
+		"db:seed": "npx tsx ./src/db/scripts/seed.ts",
+		"db:reset": "npx tsx ./src/db/scripts/reset.ts",
+		"db:studio": "npx drizzle-kit studio",
+		"db:generate": "npx drizzle-kit generate",
+		"db:push": "npx drizzle-kit push",
+		"db:pull": "npx drizzle-kit pull"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -40,6 +46,7 @@
 		"tailwind-variants": "^1.0.0",
 		"tailwindcss": "^4.0.12",
 		"tailwindcss-animate": "^1.0.7",
+		"tsx": "^4.19.3",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
 		"vite": "^6.0.0"
@@ -47,6 +54,7 @@
 	"dependencies": {
 		"dotenv": "^16.4.7",
 		"drizzle-orm": "^0.40.0",
+		"drizzle-seed": "^0.3.1",
 		"postgres": "^3.4.5"
 	}
 }
