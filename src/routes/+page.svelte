@@ -8,6 +8,8 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	let { data }: PageProps = $props();
 
+	console.log(data.laptops);
+
 	const tableHeadings = [
 		{ sortable: true, id: 'brand', title: 'Brand' },
 		{ sortable: true, id: 'model', title: 'Model' },
@@ -50,8 +52,15 @@
 				</Table.Cell>
 				<Table.Cell>{laptop.status?.status}</Table.Cell>
 				<Table.Cell>
-					<!-- {laptop.assignments[0]?.employee?.firstName}
-					{laptop.assignments[0]?.employee?.lastName} -->
+					{#if laptop.assignments?.employee?.firstName}
+						<div class="flex flex-col">
+							{laptop.assignments?.employee?.firstName}&nbsp;{laptop.assignments?.employee
+								?.lastName}
+							<span class="text-xs">{laptop.assignments?.employee?.email}</span>
+						</div>
+					{:else}
+						Not assigned
+					{/if}
 				</Table.Cell>
 				<Table.Cell>
 					<Button variant="ghost" size="icon" class="cursor-pointer">

@@ -26,7 +26,10 @@ const generateFilterByQuery = ({ filterText }: FilterByQueryParams) => {
 						sql`cast(${brands.name} as text) ilike ${'%' + terms[index] + '%'}`,
 						sql`cast(${laptops.serialNumber} as text) ilike ${'%' + terms[index] + '%'}`,
 						sql`cast(${laptopModels.name} as text) ilike ${'%' + terms[index] + '%'}`,
-						sql`cast(${laptopStatuses.status} as text) ilike ${'%' + terms[index] + '%'}`
+						sql`cast(${laptopStatuses.status} as text) ilike ${'%' + terms[index] + '%'}`,
+						sql`cast(${employees.firstName} as text) ilike ${'%' + terms[index] + '%'}`,
+						sql`cast(${employees.lastName} as text) ilike ${'%' + terms[index] + '%'}`,
+						sql`cast(${employees.email} as text) ilike ${'%' + terms[index] + '%'}`
 					)
 				);
 			}
@@ -36,7 +39,10 @@ const generateFilterByQuery = ({ filterText }: FilterByQueryParams) => {
 				sql`cast(${brands.name} as text) ilike ${'%' + filterText + '%'}`,
 				sql`cast(${laptops.serialNumber} as text) ilike ${'%' + filterText + '%'}`,
 				sql`cast(${laptopModels.name} as text) ilike ${'%' + filterText + '%'}`,
-				sql`cast(${laptopStatuses.status} as text) ilike ${'%' + filterText + '%'}`
+				sql`cast(${laptopStatuses.status} as text) ilike ${'%' + filterText + '%'}`,
+				sql`cast(${employees.firstName} as text) ilike ${'%' + filterText + '%'}`,
+				sql`cast(${employees.lastName} as text) ilike ${'%' + filterText + '%'}`,
+				sql`cast(${employees.email} as text) ilike ${'%' + filterText + '%'}`
 			);
 		}
 	}
