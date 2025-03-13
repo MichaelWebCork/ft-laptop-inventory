@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
 	import * as Table from '$lib/components/ui/table/index.js';
+	import * as Select from '$lib/components/ui/select/index.js';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Icon from '@iconify/svelte';
 	import SortableTableHeader from '$lib/components/sortableTableHeader.svelte';
@@ -8,16 +9,17 @@
 	let { data }: PageProps = $props();
 
 	const tableHeadings = [
-		{ sortable: true, id: 'brand', title: 'Brand' },
-		{ sortable: true, id: 'model', title: 'Model' },
-		{ sortable: true, id: 'serialNumber', title: 'Serial number' },
-		{ sortable: true, id: 'status', title: 'Status' },
-		{ sortable: true, id: 'assignedEmployee', title: 'Assigned to' },
-		{ sortable: false, title: 'Actions' }
+		{ filterable: true, sortable: true, id: 'brand', title: 'Brand' },
+		{ filterable: true, sortable: true, id: 'model', title: 'Model' },
+		{ filterable: true, sortable: true, id: 'serialNumber', title: 'Serial number' },
+		{ filterable: true, sortable: true, id: 'status', title: 'Status' },
+		{ filterable: true, sortable: true, id: 'assignedEmployee', title: 'Assigned to' },
+		{ filterable: false, sortable: false, id: '', title: 'Actions' }
 	];
 
 	let currentSortBy = $state('brand');
 	let currentSortOrder = $state('asc');
+	let selectedFilter = $state('');
 
 	$effect(() => {
 		const params = new URLSearchParams(window.location.search);
@@ -28,6 +30,21 @@
 
 	// console.log(data.laptops);
 </script>
+
+<div>
+	<Select.Root type="single" bind:value={selectedFilter}>
+		<Select.Trigger class="w-[180px]">
+			{selectedFilter ? tableHeadings.find((h) => h.id === selectedFilter)?.title : 'Filter by'}
+		</Select.Trigger>
+		<Select.Content>
+			{#each tableHeadings as heading}
+				{#if heading.filterable}
+					<Select.Item value={heading.id}>{heading.title}</Select.Item>
+				{/if}
+			{/each}
+		</Select.Content>
+	</Select.Root>
+</div>
 
 <Table.Root>
 	<SortableTableHeader
