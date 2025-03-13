@@ -5,3 +5,6 @@ export type OrderByQueryParams = {
 	sortBy: LaptopColumns;
 	sortOrder: SortOrder;
 };
+export type FilterByQueryParams = {
+	filterText: string;
+};
