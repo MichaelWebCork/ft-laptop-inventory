@@ -5,7 +5,7 @@ import { laptops } from '$lib/db/schema';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const id = params.id;
-	const result = await db.query.laptops.findFirst({
+	const laptopRes = await db.query.laptops.findFirst({
 		where: eq(laptops.id, Number(id)),
 		with: {
 			brand: true,
@@ -19,7 +19,9 @@ export const load: PageServerLoad = async ({ params }) => {
 			status: true
 		}
 	});
+	const modelRes = await db.query.laptopModels.findMany({});
 	return {
-		laptop: result
+		laptop: laptopRes,
+		laptopModels: modelRes
 	};
 };

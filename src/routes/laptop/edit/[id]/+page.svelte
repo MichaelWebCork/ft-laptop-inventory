@@ -5,5 +5,4 @@
 	console.log(data);
 </script>
 
-{data.id}
-<!-- <LaptopForm /> -->
+<LaptopForm laptop={data.laptop} models={data.laptopModels} />
