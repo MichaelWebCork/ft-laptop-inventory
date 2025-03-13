@@ -6,6 +6,7 @@ export const laptops = table('laptops', {
 	id: pg.integer().primaryKey().generatedAlwaysAsIdentity(),
 	serialNumber: pg.varchar().notNull(),
 	brand: pg.integer().references(() => brands.id),
+	model: pg.integer().references(() => laptopModels.id),
 	processor: pg.integer().references(() => processors.id),
 	cores: pg.integer(),
 	clockSpeed: pg.doublePrecision(),
@@ -27,6 +28,7 @@ export const laptops = table('laptops', {
 export const laptopRelations = relations(laptops, ({ one, many }) => {
 	return {
 		brand: one(brands, { fields: [laptops.brand], references: [brands.id] }),
+		model: one(laptopModels, { fields: [laptops.model], references: [laptopModels.id] }),
 		processor: one(processors, { fields: [laptops.processor], references: [processors.id] }),
 		graphics: one(graphics, { fields: [laptops.graphics], references: [graphics.id] }),
 		storageType: one(storageTypes, {
@@ -51,6 +53,17 @@ export const brands = table('brands', {
 });
 
 export const brandRelations = relations(brands, ({ many }) => ({
+	laptops: many(laptops)
+}));
+
+export const laptopModels = table('laptop_models', {
+	id: pg.integer().primaryKey().generatedAlwaysAsIdentity(),
+	name: pg.varchar().notNull().unique(),
+	createdAt: pg.timestamp().defaultNow(),
+	updatedAt: pg.timestamp().defaultNow()
+});
+
+export const laptopModelRelationships = relations(brands, ({ many }) => ({
 	laptops: many(laptops)
 }));
 
