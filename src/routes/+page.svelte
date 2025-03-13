@@ -15,12 +15,12 @@
 		{ sortable: true, id: 'model', title: 'Model' },
 		{ sortable: true, id: 'serialNumber', title: 'Serial number' },
 		{ sortable: true, id: 'status', title: 'Status' },
-		{ sortable: true, id: 'assignedEmployee', title: 'Assigned to' },
+		{ sortable: false, id: 'assignedEmployee', title: 'Assigned to' },
 		{ sortable: false, id: '', title: 'Actions' }
 	];
 
 	let currentSortBy = $state('brand');
-	let currentSortOrder = $state('asc');
+	let currentSortOrder = $state('desc');
 	let filterText = $state('');
 
 	$effect(() => {
@@ -32,7 +32,13 @@
 	});
 </script>
 
-<Input bind:value={filterText} type="text" placeholder="Filter" class="max-w-xs" />
+<div class="flex justify-between">
+	<Input bind:value={filterText} type="text" placeholder="Filter" class="max-w-xs" />
+	<Button onclick={() => goto('/laptop/new')}>
+		<Icon icon="akar-icons:plus" width="24" height="24" />
+		New laptop
+	</Button>
+</div>
 
 <Table.Root>
 	<SortableTableHeader
@@ -63,7 +69,12 @@
 					{/if}
 				</Table.Cell>
 				<Table.Cell>
-					<Button variant="ghost" size="icon" class="cursor-pointer">
+					<Button
+						variant="ghost"
+						size="icon"
+						class="cursor-pointer"
+						onclick={() => goto(`/laptop/edit/${laptop.id}`)}
+					>
 						<Icon icon="akar-icons:pencil" width="24" height="24" />
 					</Button>
 				</Table.Cell>

@@ -12,7 +12,18 @@ import {
 import type { FilterByQueryParams, LaptopColumns, OrderByQueryParams, SortOrder } from '$lib/types';
 
 const generateOrderByQuery = ({ sortBy, sortOrder }: OrderByQueryParams) => {
-	return sortOrder === 'asc' ? asc(laptops[sortBy]) : desc(laptops[sortBy]);
+	switch (sortBy) {
+		case 'brand':
+			return sortOrder === 'asc' ? asc(brands.name) : desc(brands.name);
+		case 'model':
+			return sortOrder === 'asc' ? asc(laptopModels.name) : desc(laptopModels.name);
+		case 'status':
+			return sortOrder === 'asc' ? asc(laptopStatuses.status) : desc(laptopStatuses.status);
+		case 'serialNumber':
+			return sortOrder === 'asc' ? asc(laptops.serialNumber) : desc(laptops.serialNumber);
+		default:
+			return sortOrder === 'asc' ? asc(laptops.id) : desc(laptops.id);
+	}
 };
 
 const generateFilterByQuery = ({ filterText }: FilterByQueryParams) => {
@@ -58,6 +69,7 @@ export const load: PageServerLoad = async ({ url }) => {
 
 	const query = db
 		.select({
+			id: laptops.id,
 			serialNumber: laptops.serialNumber,
 			purchasePrice: laptops.purchasePrice,
 			brand: brands,
