@@ -33,10 +33,11 @@
 	let selectedStorageType = $derived(storageTypes.find(({ id }) => id === storageTypeId));
 	let storage = $state(laptop.storage);
 
-	let notes = $state('');
+	let notes = $state(laptop.notes);
 </script>
 
 <form class="flex w-full max-w-sm flex-col gap-6" method="POST">
+	<input type="hidden" name="id" value={laptop.id} />
 	<fieldset class="flex flex-col gap-2">
 		<Label for="serial-number">Serial number</Label>
 		<Input

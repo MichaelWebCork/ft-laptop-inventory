@@ -39,7 +39,47 @@ export const load: PageServerLoad = async ({ params }) => {
 
 export const actions: Actions = {
 	default: async ({ request }) => {
-		const formData = await request.formData();
-		console.log(formData);
+		const data = await request.formData();
+		const id = data.get('id');
+		const serialNumber = data.get('serial-number');
+		// const brand = data.get('brand'); // TODO: missing from form
+		const model = data.get('model');
+		const processor = data.get('processor');
+		const cores = data.get('cores');
+		const clockSpeed = data.get('clock-speed');
+		// const graphics = data.get('clock-speed'); // TODO: missing from form
+		const storageType = data.get('storage-type');
+		const storage = data.get('storage');
+		const ramType = data.get('ram-type');
+		const ram = data.get('ram');
+		// const operatingSystem = data.get('operating-system'); // TODO: missing from form
+		const purchasePrice = data.get('purchase-price');
+		const purchaseDate = data.get('purchase-date');
+		const status = data.get('status');
+		const notes = data.get('notes');
+
+		// console.log(brand);
+
+		// TODO: handle laptop assignments
+
+		await db
+			.update(laptops)
+			.set({
+				serialNumber,
+				// brand,
+				model,
+				processor,
+				cores,
+				clockSpeed,
+				storageType,
+				storage,
+				ramType,
+				ram,
+				purchasePrice,
+				purchaseDate,
+				status,
+				notes
+			})
+			.where(eq(laptops.id, id));
 	}
 };
