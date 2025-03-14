@@ -1,7 +1,8 @@
 import { db } from '$lib/db/db.server';
 import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import { laptops } from '$lib/db/schema';
+import { laptopAssignments, laptops } from '$lib/db/schema';
+import { json, type Actions } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const id = params.id;
@@ -34,4 +35,11 @@ export const load: PageServerLoad = async ({ params }) => {
 		ramTypes: ramTypesRes,
 		storageTypes: storageTypesRes
 	};
+};
+
+export const actions: Actions = {
+	default: async ({ request }) => {
+		const formData = await request.formData();
+		console.log(formData);
+	}
 };

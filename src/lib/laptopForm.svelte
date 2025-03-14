@@ -3,6 +3,7 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { Textarea } from '$lib/components/ui/textarea/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
+	import Button from './components/ui/button/button.svelte';
 	let { laptop, models, statuses, employees, processors, ramTypes, storageTypes } = $props();
 
 	let serialNumber = $state(laptop.serialNumber);
@@ -35,13 +36,20 @@
 	let notes = $state('');
 </script>
 
-<form class="flex w-full max-w-sm flex-col gap-6">
+<form class="flex w-full max-w-sm flex-col gap-6" method="POST">
 	<fieldset class="flex flex-col gap-2">
 		<Label for="serial-number">Serial number</Label>
-		<Input type="text" id="serial-number" bind:value={serialNumber} placeholder="xxx-xxx-xxx-xxx" />
+		<Input
+			type="text"
+			id="serial-number"
+			name="serial-number"
+			bind:value={serialNumber}
+			placeholder="xxx-xxx-xxx-xxx"
+		/>
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
 		<Label for="model">Model</Label>
+		<input type="hidden" name="model" value={modelId} />
 		<Select.Root type="single" bind:value={modelId}>
 			<Select.Trigger class="w-[180px]">{selectedModel.name}</Select.Trigger>
 			<Select.Content>
@@ -53,6 +61,7 @@
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
 		<Label for="status">Status</Label>
+		<input type="hidden" name="status" value={statusId} />
 		<Select.Root type="single" bind:value={statusId}>
 			<Select.Trigger class="w-[180px]">{selectedStatus.status}</Select.Trigger>
 			<Select.Content>
@@ -64,6 +73,7 @@
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
 		<Label for="assigned">Assigned to</Label>
+		<input type="hidden" name="assigned" value={employeeId} />
 		<Select.Root type="single" bind:value={employeeId}>
 			<Select.Trigger class="w-[180px]">
 				{#if selectedEmployee}
@@ -82,14 +92,27 @@
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
 		<Label for="purchase-date">Purchase date</Label>
-		<Input type="date" id="purchase-date" value={purchaseDate} placeholder="xxx-xxx-xxx-xxx" />
+		<Input
+			type="date"
+			id="purchase-date"
+			name="purchase-date"
+			value={purchaseDate}
+			placeholder="xxx-xxx-xxx-xxx"
+		/>
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
 		<Label for="purchase-price">Purchase price €</Label>
-		<Input type="number" id="purchase-price" value={purchasePrice} placeholder="xxx-xxx-xxx-xxx" />
+		<Input
+			type="number"
+			id="purchase-price"
+			name="purchase-price"
+			value={purchasePrice}
+			placeholder="xxx-xxx-xxx-xxx"
+		/>
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
 		<Label for="processor">Processor</Label>
+		<input type="hidden" name="processor" value={processorId} />
 		<Select.Root type="single" bind:value={processorId}>
 			<Select.Trigger class="w-[180px]">{selectedProcessor.name}</Select.Trigger>
 			<Select.Content>
@@ -100,15 +123,22 @@
 		</Select.Root>
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
-		<Label for="purchase-price">Clock speed MHz</Label>
-		<Input type="number" id="purchase-price" value={clockSpeed} placeholder="xxx-xxx-xxx-xxx" />
+		<Label for="clock-speed">Clock speed MHz</Label>
+		<Input
+			type="number"
+			id="clock-speed"
+			name="clock-speed"
+			value={clockSpeed}
+			placeholder="xxx-xxx-xxx-xxx"
+		/>
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
-		<Label for="purchase-price">Cores</Label>
-		<Input type="number" id="purchase-price" value={cores} placeholder="xxx-xxx-xxx-xxx" />
+		<Label for="cores">Cores</Label>
+		<Input type="number" id="cores" name="cores" value={cores} placeholder="xxx-xxx-xxx-xxx" />
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
-		<Label for="ram">Ram</Label>
+		<Label for="ram-type">Ram</Label>
+		<input type="hidden" name="ram-type" value={ramId} />
 		<Select.Root type="single" bind:value={ramId}>
 			<Select.Trigger class="w-[180px]">{selectedRam.type}</Select.Trigger>
 			<Select.Content>
@@ -119,11 +149,12 @@
 		</Select.Root>
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
-		<Label for="purchase-price">Ram GB</Label>
-		<Input type="number" id="purchase-price" value={ram} placeholder="xxx-xxx-xxx-xxx" />
+		<Label for="ram">Ram GB</Label>
+		<Input type="number" id="ram" name="ram" value={ram} placeholder="xxx-xxx-xxx-xxx" />
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
-		<Label for="storage">Storage type</Label>
+		<Label for="storage-type">Storage type</Label>
+		<input type="hidden" name="storage-type" value={storageTypeId} />
 		<Select.Root type="single" bind:value={storageTypeId}>
 			<Select.Trigger class="w-[180px]">{selectedStorageType.type}</Select.Trigger>
 			<Select.Content>
@@ -134,11 +165,18 @@
 		</Select.Root>
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
-		<Label for="serial-number">Storeage GB</Label>
-		<Input type="number" id="purchase-price" value={storage} placeholder="xxx-xxx-xxx-xxx" />
+		<Label for="storage">Storeage GB</Label>
+		<Input
+			type="number"
+			id="storage"
+			name="storage"
+			value={storage}
+			placeholder="xxx-xxx-xxx-xxx"
+		/>
 	</fieldset>
 	<fieldset class="flex flex-col gap-2">
 		<Label for="notes">Notes</Label>
-		<Textarea bind:value={notes} />
+		<Textarea name="notes" bind:value={notes} />
 	</fieldset>
+	<Button type="submit">Update laptop</Button>
 </form>
