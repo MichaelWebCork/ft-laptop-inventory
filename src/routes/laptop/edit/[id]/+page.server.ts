@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { laptopAssignments, laptops } from '$lib/db/schema';
 import { json, type Actions } from '@sveltejs/kit';
+import { and } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const id = params.id;
@@ -57,29 +58,63 @@ export const actions: Actions = {
 		const purchaseDate = data.get('purchase-date');
 		const status = data.get('status');
 		const notes = data.get('notes');
+		const assigned = data.get('assigned');
 
 		// console.log(brand);
 
 		// TODO: handle laptop assignments
 
-		await db
-			.update(laptops)
-			.set({
-				serialNumber,
-				// brand,
-				model,
-				processor,
-				cores,
-				clockSpeed,
-				storageType,
-				storage,
-				ramType,
-				ram,
-				purchasePrice,
-				purchaseDate,
-				status,
-				notes
-			})
-			.where(eq(laptops.id, id));
+		await db.transaction(async (t) => {
+			// First get current assignment
+			const currentAssignment = await t
+				.select()
+				.from(laptopAssignments)
+				.where(and(eq(laptopAssignments.laptopId, id), eq(laptopAssignments.isCurrent, true)));
+
+			const hasCurrentAssignment = currentAssignment.length > 0;
+			const currentEmployeeId = hasCurrentAssignment ? currentAssignment[0].employeeId : null;
+
+			// Only update assignments if the employee has changed
+			if (currentEmployeeId !== assigned) {
+				// If there is a current assignment, set it to not current
+				if (hasCurrentAssignment) {
+					await t
+						.update(laptopAssignments)
+						.set({
+							isCurrent: false,
+							returnedAt: new Date()
+						})
+						.where(and(eq(laptopAssignments.laptopId, id), eq(laptopAssignments.isCurrent, true)));
+				}
+
+				// If new employee selected, create new assignment
+				if (assigned) {
+					await t.insert(laptopAssignments).values({
+						laptopId: id,
+						employeeId: assigned,
+						isCurrent: true
+					});
+				}
+			}
+			await t
+				.update(laptops)
+				.set({
+					serialNumber,
+					// brand,
+					model,
+					processor,
+					cores,
+					clockSpeed,
+					storageType,
+					storage,
+					ramType,
+					ram,
+					purchasePrice,
+					purchaseDate,
+					status,
+					notes
+				})
+				.where(eq(laptops.id, id));
+		});
 	}
 };

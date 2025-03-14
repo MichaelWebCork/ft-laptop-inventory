@@ -75,17 +75,18 @@ export const load: PageServerLoad = async ({ url }) => {
 			brand: brands,
 			model: laptopModels,
 			status: laptopStatuses,
-			assignments: {
-				assignment: laptopAssignments,
-				employee: employees
-			}
+			assignments: sql`jsonb_agg(jsonb_build_object(
+			'assignment', ${laptopAssignments},
+			'employee', ${employees}
+		))`.as('assignments')
 		})
 		.from(laptops)
 		.leftJoin(brands, eq(brands.id, laptops.brand))
 		.leftJoin(laptopModels, eq(laptopModels.id, laptops.model))
 		.leftJoin(laptopStatuses, eq(laptopStatuses.id, laptops.status))
 		.leftJoin(laptopAssignments, eq(laptopAssignments.laptopId, laptops.id))
-		.leftJoin(employees, eq(employees.id, laptopAssignments.employeeId));
+		.leftJoin(employees, eq(employees.id, laptopAssignments.employeeId))
+		.groupBy(laptops.id, brands.id, laptopModels.id, laptopStatuses.id);
 
 	if (filterText.length) {
 		query.where(filterByQuery);
@@ -94,8 +95,13 @@ export const load: PageServerLoad = async ({ url }) => {
 	query.orderBy(orderByQuery);
 
 	const res = await query;
+	const laptopsMapped = res.map((laptop) => ({
+		...laptop,
+		assignment: laptop.assignments.find((assignment) => assignment.assignment?.isCurrent)?.employee
+	}));
 
+	console.log(laptopsMapped);
 	return {
-		laptops: res
+		laptops: laptopsMapped
 	};
 };

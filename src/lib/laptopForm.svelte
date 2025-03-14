@@ -14,7 +14,7 @@
 	let statusId = $state(laptop.status.id);
 	let selectedStatus = $derived(statuses.find(({ id }) => id === statusId));
 
-	let employeeId = $state(laptop.assignments.find(({ isCurrent }) => isCurrent)?.id);
+	let employeeId = $state(laptop.assignments.find(({ isCurrent }) => isCurrent)?.employeeId);
 	let selectedEmployee = $derived(employees.find(({ id }) => id === employeeId));
 
 	let purchaseDate = $state(laptop.purchaseDate);
@@ -130,6 +130,7 @@
 			id="clock-speed"
 			name="clock-speed"
 			value={clockSpeed}
+			step="0.01"
 			placeholder="xxx-xxx-xxx-xxx"
 		/>
 	</fieldset>

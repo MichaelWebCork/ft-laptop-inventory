@@ -8,7 +8,7 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	let { data }: PageProps = $props();
 
-	console.log(data.laptops);
+	// console.log(data.laptops);
 
 	const tableHeadings = [
 		{ sortable: true, id: 'brand', title: 'Brand' },
@@ -29,6 +29,7 @@
 		params.set('sortOrder', currentSortOrder);
 		params.set('filterText', filterText);
 		goto(`?${params.toString()}`, { replaceState: true, keepFocus: true });
+		console.log(data.laptops);
 	});
 </script>
 
@@ -58,11 +59,10 @@
 				</Table.Cell>
 				<Table.Cell>{laptop.status?.status}</Table.Cell>
 				<Table.Cell>
-					{#if laptop.assignments?.assignment?.isCurrent}
+					{#if laptop.assignment}
 						<div class="flex flex-col">
-							{laptop.assignments?.employee?.firstName}&nbsp;{laptop.assignments?.employee
-								?.lastName}
-							<span class="text-xs">{laptop.assignments?.employee?.email}</span>
+							{laptop.assignment?.firstName}&nbsp;{laptop.assignment?.lastName}
+							<span class="text-xs">{laptop.assignment?.email}</span>
 						</div>
 					{:else}
 						Not assigned
