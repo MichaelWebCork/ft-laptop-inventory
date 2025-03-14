@@ -2,6 +2,8 @@
 
 ## Get started
 Run the following 
+- clone the repo
+- cd into ft-laptop-inventory
 - npm i
 - docker compose up -d
 - npm run db:push
