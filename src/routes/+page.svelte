@@ -58,7 +58,7 @@
 				</Table.Cell>
 				<Table.Cell>{laptop.status?.status}</Table.Cell>
 				<Table.Cell>
-					{#if laptop.assignments?.employee?.firstName}
+					{#if laptop.assignments?.assignment?.isCurrent}
 						<div class="flex flex-col">
 							{laptop.assignments?.employee?.firstName}&nbsp;{laptop.assignments?.employee
 								?.lastName}

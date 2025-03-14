@@ -3,7 +3,6 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { Textarea } from '$lib/components/ui/textarea/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
-	// import Combobox from './combobox.svelte';
 	let { laptop, models, statuses, employees, processors, ramTypes, storageTypes } = $props();
 
 	let serialNumber = $state(laptop.serialNumber);
@@ -14,7 +13,7 @@
 	let statusId = $state(laptop.status.id);
 	let selectedStatus = $derived(statuses.find(({ id }) => id === statusId));
 
-	let employeeId = $state(laptop.assignments.find(({ isCurrent }) => isCurrent));
+	let employeeId = $state(laptop.assignments.find(({ isCurrent }) => isCurrent)?.id);
 	let selectedEmployee = $derived(employees.find(({ id }) => id === employeeId));
 
 	let purchaseDate = $state(laptop.purchaseDate);

@@ -76,6 +76,7 @@ export const load: PageServerLoad = async ({ url }) => {
 			model: laptopModels,
 			status: laptopStatuses,
 			assignments: {
+				assignment: laptopAssignments,
 				employee: employees
 			}
 		})
