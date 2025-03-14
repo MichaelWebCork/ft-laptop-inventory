@@ -100,7 +100,6 @@ export const load: PageServerLoad = async ({ url }) => {
 		assignment: laptop.assignments.find((assignment) => assignment.assignment?.isCurrent)?.employee
 	}));
 
-	console.log(laptopsMapped);
 	return {
 		laptops: laptopsMapped
 	};

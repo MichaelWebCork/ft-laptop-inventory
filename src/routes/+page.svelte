@@ -9,8 +9,6 @@
 	import ExportCsv from '$lib/components/exportCsv.svelte';
 	let { data }: PageProps = $props();
 
-	// console.log(data.laptops);
-
 	const tableHeadings = [
 		{ sortable: true, id: 'brand', title: 'Brand' },
 		{ sortable: true, id: 'model', title: 'Model' },
@@ -30,7 +28,6 @@
 		params.set('sortOrder', currentSortOrder);
 		params.set('filterText', filterText);
 		goto(`?${params.toString()}`, { replaceState: true, keepFocus: true });
-		console.log(data.laptops);
 	});
 </script>
 

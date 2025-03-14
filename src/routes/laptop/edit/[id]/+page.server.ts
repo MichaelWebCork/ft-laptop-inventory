@@ -60,10 +60,6 @@ export const actions: Actions = {
 		const notes = data.get('notes');
 		const assigned = data.get('assigned');
 
-		// console.log(brand);
-
-		// TODO: handle laptop assignments
-
 		await db.transaction(async (t) => {
 			// First get current assignment
 			const currentAssignment = await t
