@@ -1,5 +1,6 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import LaptopForm from '$lib/laptopForm.svelte';
 </script>
 
-<LaptopForm />
+<LaptopForm /> -->
+<!-- TODO: reuse laptopform component to create new -->

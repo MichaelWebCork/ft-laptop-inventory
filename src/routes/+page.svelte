@@ -6,6 +6,7 @@
 	import SortableTableHeader from '$lib/components/sortableTableHeader.svelte';
 	import { goto } from '$app/navigation';
 	import Input from '$lib/components/ui/input/input.svelte';
+	import ExportCsv from '$lib/components/exportCsv.svelte';
 	let { data }: PageProps = $props();
 
 	// console.log(data.laptops);
@@ -33,12 +34,15 @@
 	});
 </script>
 
-<div class="flex justify-between">
+<div class="mb-2 flex justify-between">
 	<Input bind:value={filterText} type="text" placeholder="Filter" class="max-w-xs" />
-	<Button onclick={() => goto('/laptop/new')}>
-		<Icon icon="akar-icons:plus" width="24" height="24" />
-		New laptop
-	</Button>
+	<div>
+		<ExportCsv laptops={data.laptops} />
+		<Button onclick={() => goto('/laptop/new')}>
+			<Icon icon="akar-icons:plus" width="24" height="24" />
+			New laptop
+		</Button>
+	</div>
 </div>
 
 <Table.Root>
