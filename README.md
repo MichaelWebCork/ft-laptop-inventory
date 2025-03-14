@@ -4,6 +4,7 @@
 Run the following 
 - clone the repo
 - cd into ft-laptop-inventory
+- ceate a .env file in the root folder, copy .env.example content into it
 - npm i
 - docker compose up -d
 - npm run db:push
