@@ -20,8 +20,18 @@ export const load: PageServerLoad = async ({ params }) => {
 		}
 	});
 	const modelRes = await db.query.laptopModels.findMany({});
+	const statusRes = await db.query.laptopStatuses.findMany({});
+	const employeesRes = await db.query.employees.findMany({});
+	const processorsRes = await db.query.processors.findMany({});
+	const ramTypesRes = await db.query.ramTypes.findMany({});
+	const storageTypesRes = await db.query.storageTypes.findMany({});
 	return {
 		laptop: laptopRes,
-		laptopModels: modelRes
+		laptopModels: modelRes,
+		laptopStatuses: statusRes,
+		employees: employeesRes,
+		processors: processorsRes,
+		ramTypes: ramTypesRes,
+		storageTypes: storageTypesRes
 	};
 };

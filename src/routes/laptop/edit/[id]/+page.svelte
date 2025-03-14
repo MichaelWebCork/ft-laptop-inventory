@@ -5,4 +5,12 @@
 	console.log(data);
 </script>
 
-<LaptopForm laptop={data.laptop} models={data.laptopModels} />
+<LaptopForm
+	laptop={data.laptop}
+	models={data.laptopModels}
+	statuses={data.laptopStatuses}
+	employees={data.employees}
+	processors={data.processors}
+	ramTypes={data.ramTypes}
+	storageTypes={data.storageTypes}
+/>
